@@ -2,6 +2,7 @@ import {useState,useEffect} from 'react'
 import {userRequest} from '../request';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 const Orders = () => {
   const [orders,setOrders] =useState([]);
   useEffect(()=>{
@@ -13,8 +14,16 @@ const Orders = () => {
     getAllOrders()
   },[])
 
+  const handleDelete=async(id)=>{
+    try{
+             await userRequest.delete(`/order/${id}`)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
  
-  console.log(orders)
+
     const columns = [
         { field: 'userId', headerName: 'User_ID', width: 100 },
         { field: 'phoneNo', headerName: 'phone number', width: 150 },
@@ -29,11 +38,14 @@ const Orders = () => {
           {field:'action',headerName:"action",width:150,
              renderCell:(params)=>{
                  return(
-                     <div>
-                       <Link to={'/orders/'+ params.row.userId}>
+                     <div className='flex space-x-3'>
+                       <Link to={'/orders/'+ params.row._id}>
                          <button 
                          className='bg-green-500 rounded-sm text-center px-3 p-1 font-medium text-sm text-white'>edit</button>
                          </Link>
+                         <button   onClick={()=>handleDelete(params.row._id)}
+                         className='bg-red-500 rounded-sm 
+                         text-center px-3 p-1 font-medium text-sm text-white'>delete</button>
                      </div>
                  )
              }

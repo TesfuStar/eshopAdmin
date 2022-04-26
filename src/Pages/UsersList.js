@@ -22,7 +22,7 @@ const UsersList = () => {
              renderCell:(params)=>{
                  return(
                      <div>
-                         <button onClick={()=>handleClick(params.row.id)}
+                         <button onClick={()=>handleClick(params.row._id)}
                           className='bg-red-500 rounded-sm text-center px-3 p-1 font-medium text-sm text-white'>Delete</button>
                      </div>
                  )
@@ -30,18 +30,12 @@ const UsersList = () => {
               }
             ];
             
-            const rows = [
-        { id: 1, username: 'Snow', email: 'Jon@gmail',status:"pending" },
-        { id: 2, username: 'Snow', email: 'Jon@gmail',status:"pending" },
-        { id: 3, username: 'Snow', email: 'Jon@gmail',status:"pending" },
-        { id: 4, username: 'Snow', email: 'Jon@gmail',status:"pending" },
-        { id: 5, username: 'Snow', email: 'Jon@gmail',status:"pending" },
-        
-        
-      ];
-      const [data,setData]=useState(rows)
-      const handleClick=(id)=>{
-        setData(data.filter((item)=>item.id !==id))
+      const handleClick=async(id)=>{
+        try{
+          await userRequest.delete(`/user/${id}`)
+        }catch(err){
+          console.log(err)
+        }
       }
   return (
     <div className=''>

@@ -21,7 +21,7 @@ const EditOrder = () => {
 const handleSubmit=async(e)=>{
   e.preventDefault();
   try{
-          await userRequest.put( `/order/${OrderId}`,{...orders,status:inputs})
+          await userRequest.put( `/order/${OrderId}`,{status:inputs})
   }catch(err){
     console.log(err)
   }
